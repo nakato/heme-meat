@@ -1,0 +1,11 @@
+CREATE TABLE attendees (
+  id INTEGER PRIMARY KEY NOT NULL,
+  name TEXT NOT NULL,
+  additional INTEGER NOT NULL DEFAULT 0
+);
+
+CREATE TABLE event (
+  id INTEGER PRIMARY KEY NOT NULL,
+  title TEXT NOT NULL,
+  description TEXT NOT NULL
+);
