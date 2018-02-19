@@ -10,9 +10,9 @@ use rocket::{Request, State, Outcome};
 pub type DBPool = r2d2::Pool<ConnectionManager<SqliteConnection>>;
 
 pub fn init_pool(database_url: &str) -> DBPool {
-    let config = r2d2::Config::default();
     let manager = ConnectionManager::<SqliteConnection>::new(database_url);
-    r2d2::Pool::new(config, manager).expect("Failed to create pool.")
+    r2d2::Pool::builder()
+        .build(manager).unwrap()
 }
 
 pub struct Connection(r2d2::PooledConnection<ConnectionManager<SqliteConnection>>);
