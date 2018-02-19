@@ -19,7 +19,7 @@ pub fn attendee_list(conn: db::Connection) -> Json<Vec<Attendees>> {
 pub fn add_attendee(conn: db::Connection, attendee: Option<Json<NewAttendee>>) -> String {
     attendee.map(|attendee| {
         println!("{:?}", *attendee);
-        diesel::insert(&*attendee).into(attendees::table)
+        diesel::insert_into(attendees::table).values(&*attendee)
             .execute(&*conn).expect("Error adding attendee");
     });
     String::from("Didn't crash")
@@ -37,7 +37,7 @@ pub fn description(conn: db::Connection) -> Json<Event> {
 pub fn set_description(conn: db::Connection, evente: Option<Form<NewEvent>>) -> String {
     evente.map(|eventee| {
         println!("{:?}", eventee.get());
-        diesel::insert(eventee.get()).into(event::table)
+        diesel::insert_into(event::table).values(eventee.get())
             .execute(&*conn).expect("Error creating event");
     });
     String::from("Didn't crash")
