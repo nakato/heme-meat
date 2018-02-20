@@ -15,7 +15,8 @@ fn main() {
     let database_url = env::var("DATABASE_URL").expect("env var DATABASE_URL needed");
 
     rocket::ignite()
-        .mount("/", routes![index, attendee_list, add_attendee, description, set_description])
+        .mount("/api", routes![attendee_list, add_attendee, description, set_description])
+        .mount("/", routes![index, files])
         .manage(db::init_pool(&database_url))
         .launch();
 }
