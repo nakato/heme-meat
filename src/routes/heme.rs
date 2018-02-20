@@ -26,11 +26,13 @@ pub fn add_attendee(conn: db::Connection, attendee: Option<Json<NewAttendee>>) -
 }
 
 #[get("/get_description", format = "application/json")]
-pub fn description(conn: db::Connection) -> Json<Event> {
+pub fn description(conn: db::Connection) -> Option<Json<Event>> {
     use ::schema::event::dsl::*;
-    let mut e = event.filter(id.eq(1)).limit(1).load::<Event>(&*conn).expect("Error loading event");
-    let s = e.remove(0);
-    return Json(s)
+    if let Ok(e) = event.filter(id.eq(1)).limit(1).get_result::<Event>(&*conn) {
+        Some(Json(e))
+    } else {
+        None
+    }
 }
 
 #[post("/set_description", data = "<evente>")]
